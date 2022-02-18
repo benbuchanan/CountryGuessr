@@ -10,7 +10,8 @@
 		8885E65127BD3D640057D9D7 /* Country_GuessrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885E65027BD3D640057D9D7 /* Country_GuessrApp.swift */; };
 		8885E65327BD3D640057D9D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885E65227BD3D640057D9D7 /* ContentView.swift */; };
 		8885E65527BD3D680057D9D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8885E65427BD3D680057D9D7 /* Assets.xcassets */; };
-		8885E65827BD3D680057D9D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8885E65727BD3D680057D9D7 /* Preview Assets.xcassets */; };
+		8885E66027BD3E110057D9D7 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885E65F27BD3E110057D9D7 /* Models.swift */; };
+		88C0F9F127BD5DB500C0F804 /* countrydata.json in Resources */ = {isa = PBXBuildFile; fileRef = 8885E66127BD3FEA0057D9D7 /* countrydata.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,8 @@
 		8885E65227BD3D640057D9D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8885E65427BD3D680057D9D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8885E65727BD3D680057D9D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8885E65F27BD3E110057D9D7 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		8885E66127BD3FEA0057D9D7 /* countrydata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countrydata.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +54,10 @@
 		8885E64F27BD3D640057D9D7 /* Country Guessr */ = {
 			isa = PBXGroup;
 			children = (
+				8885E66127BD3FEA0057D9D7 /* countrydata.json */,
 				8885E65027BD3D640057D9D7 /* Country_GuessrApp.swift */,
 				8885E65227BD3D640057D9D7 /* ContentView.swift */,
+				8885E65F27BD3E110057D9D7 /* Models.swift */,
 				8885E65427BD3D680057D9D7 /* Assets.xcassets */,
 				8885E65627BD3D680057D9D7 /* Preview Content */,
 			);
@@ -125,7 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8885E65827BD3D680057D9D7 /* Preview Assets.xcassets in Resources */,
+				88C0F9F127BD5DB500C0F804 /* countrydata.json in Resources */,
 				8885E65527BD3D680057D9D7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8885E66027BD3E110057D9D7 /* Models.swift in Sources */,
 				8885E65327BD3D640057D9D7 /* ContentView.swift in Sources */,
 				8885E65127BD3D640057D9D7 /* Country_GuessrApp.swift in Sources */,
 			);
@@ -196,7 +202,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -251,7 +257,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
