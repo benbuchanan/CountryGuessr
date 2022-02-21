@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @State var randomCountry: Country
     @State var guess: String = ""
     @State var allSuggestions: [String]
@@ -16,7 +18,10 @@ struct ContentView: View {
     @State var showSuggestions: Bool = false
     @State var suggestionTapped: Bool = false
     @State var distance: Double = 0.0
+    @State var bearing: Double = 0.0
+    @State var directionToGo: String = ""
     @State var showDistance: Bool = false
+    @State var roundOver: Bool = false
     
     init() {
         _randomCountry = State(initialValue: countries[Int.random(in: 0..<countries.count)])
@@ -29,40 +34,63 @@ struct ContentView: View {
         
     var body: some View {
         VStack {
-            Image(self.randomCountry.countryCode.lowercased()).resizable().frame(width:300, height: 300)
-            Spacer()
+            HStack {
+                Text("Country Guessr")
+                    .font(.title)
+                    .padding()
+                Spacer()
+            }
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color(UIColor.systemCyan))
+                Image(self.randomCountry.countryCode.lowercased()).resizable().frame(width: self.showSuggestions ? 150 : 225, height: self.showSuggestions ? 150 : 225)
+            }
+            .frame(width: self.showSuggestions ? 200 : 250, height: self.showSuggestions ? 200 : 250)
+            if !self.showSuggestions {
+                Spacer()
+            }
             VStack {
                 if self.showSuggestions {
                     List(self.currentSuggestions, id: \.self) { sug in
                         Button(action: {
                             self.suggestionTapped = true
                             self.guess = sug
-                            self.showSuggestions = false
+                            withAnimation(.default) {
+                                self.showSuggestions = false
+                            }
                         }) {
                             Text(sug)
                         }
                     }
                     .listStyle(.plain)
-                    .frame(height: 125)
+                    .frame(height: 120)
                 }
                 TextField("Enter your guess", text: $guess)
                     .onChange(of: guess) { _ in
+                        if self.roundOver {
+                            self.roundOver.toggle()
+                            return
+                        }
                         if !self.showSuggestions && self.suggestionTapped {
                             self.suggestionTapped.toggle()
                             return
                         }
-                        self.showSuggestions = true
+                        withAnimation(.default) {
+                            self.showSuggestions = true
+                        }
                         updateSuggestions()
                     }
                     .multilineTextAlignment(.center)
                     .onSubmit {
                         print(self.guess)
-                        self.showSuggestions = false
+                        withAnimation(.default) {
+                            self.showSuggestions = false
+                        }
                         if self.guess.lowercased() == self.randomCountry.country.lowercased() {
                             print("CORRECT")
+                            self.roundOver = true
                             self.showDistance = false
                             self.guess = ""
-                            self.showSuggestions = false
                             self.randomCountry = countries[Int.random(in: 0..<countries.count)]
                             print(self.randomCountry.country)
                         } else {
@@ -72,7 +100,13 @@ struct ContentView: View {
                             if guessedCountry == nil {
                                 print("invalid country guessed")
                             } else {
-                                self.distance = calculateDistance(country1: self.randomCountry, country2: guessedCountry!)
+                                self.distance = calculateDistance(country1: guessedCountry!, country2: self.randomCountry)
+                                self.bearing = calculateBearing(country1: guessedCountry!, country2: self.randomCountry)
+                                if self.bearing < 0 && self.bearing > -180 {
+                                    print("go left")
+                                } else {
+                                    print("go right")
+                                }
                                 self.showDistance = true
                             }
                             // TODO: calculate direction to correct country
@@ -80,6 +114,11 @@ struct ContentView: View {
                     }
                 if self.showDistance {
                     Text("Incorrect. \(String(format: "%.0f", round(self.distance)))km away.")
+                    Text("Bearing \(String(format: "%.2f", self.bearing))º")
+                    Text(self.directionToGo)
+                    Image(colorScheme == .dark ? "arrow-white" : "arrow-dark")
+                        .rotationEffect(.degrees(self.bearing))
+                        .frame(width: 25, height: 25)
                 }
             }
             Spacer()
@@ -109,6 +148,7 @@ struct ContentView: View {
         return nil
     }
     
+    // Calculate the distance between country1 and country2
     func calculateDistance(country1: Country, country2: Country) -> Double {
         // Get values in radians
         let lat1 = country1.latitude * Double.pi / 180
@@ -119,6 +159,29 @@ struct ContentView: View {
         let distance = earthRadiusInKm * acos((sin(lat1) * sin(lat2)) + cos(lat1) * cos(lat2) * cos(lon2 - lon1))
         
         return distance
+    }
+    
+    // Calculate the bearing from country1 to country2
+    func calculateBearing(country1: Country, country2: Country) -> Double {
+        let lat1 = degreesToRadians(degrees: country1.latitude)
+        let lon1 = degreesToRadians(degrees: country1.longitude)
+        let lat2 = degreesToRadians(degrees: country2.latitude)
+        let lon2 = degreesToRadians(degrees: country2.longitude)
+        
+        let deltaLon = lon2 - lon1
+        
+        let bearingRadians = atan2((sin(deltaLon) * cos(lat2)), (cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(deltaLon)))
+                
+        let bearingDegrees = bearingRadians * 180 / Double.pi
+        if bearingDegrees < 0 {
+            return bearingDegrees + 360
+        }
+        
+        return bearingDegrees
+    }
+    
+    func degreesToRadians(degrees: Double) -> Double {
+        return degrees * Double.pi / 180
     }
 }
 

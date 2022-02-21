@@ -1536,14 +1536,6 @@
     "longitude": -61.2
   },
   {
-    "country": "Saint Vincent & the Grenadines",
-    "countryCode": "VC",
-    "countryCode3": "VCT",
-    "numericCode": 670,
-    "latitude": 13.25,
-    "longitude": -61.2
-  },
-  {
     "country": "St. Vincent and the Grenadines",
     "countryCode": "VC",
     "countryCode3": "VCT",
@@ -1750,14 +1742,6 @@
     "numericCode": 760,
     "latitude": 35,
     "longitude": 38
-  },
-  {
-    "country": "Taiwan, Province of China",
-    "countryCode": "TW",
-    "countryCode3": "TWN",
-    "numericCode": 158,
-    "latitude": 23.5,
-    "longitude": 121
   },
   {
     "country": "Taiwan",
